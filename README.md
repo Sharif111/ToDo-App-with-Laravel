@@ -1,4 +1,4 @@
-###Laravel ToDo App
+##Laravel ToDo App
 
 This is a simple ToDo app.
 
