@@ -2,11 +2,9 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\Todo;
 use Illuminate\Http\Request;
-use DB;
 
-class TodoController extends Controller
+class CustomerController extends Controller
 {
     /**
      * Display a listing of the resource.
@@ -15,9 +13,8 @@ class TodoController extends Controller
      */
     public function index()
     {
-        $data=DB::select('select * from todos');
+        $data=DB::select('select * from customer');
         return view('welcome',compact('data'));
-
     }
 
     /**
@@ -38,29 +35,32 @@ class TodoController extends Controller
      */
     public function store(Request $request)
     {
-
         $validateData=$request->validate([
-       'title'=>'required|max:255',
-          ]);
+            'name' => 'required|max:255|regex:/^[A-Za-z0-9\-\&! ,\'\"\/@\.:\(\)]+$/',
+            'address' => 'required|max:255|regex:/^[A-Za-z0-9\-\&! ,\'\"\/@\.:\(\)]+$/',
+            'mobile' => 'required|max:255|regex:/^[A-Za-z0-9\-\&! ,\'\"\/@\.:\(\)]+$/',
+               ]);
 
-        $td=new Todo();
-        $td->title=$request->title;
-        $save=$td->save();
-        if($save){
-            return redirect('/');
-        }
-
-
+             $td=new Customer();
+             $td->name=$request->name;
+             $td->address=$request->address;
+             $td->email=$request->email;
+             $td->gender=$request->gender;
+             $td->mobile=$request->mobile;
+             $save=$td->save();
+             if($save){
+                 return redirect('/');
+             }
 
     }
 
     /**
      * Display the specified resource.
      *
-     * @param  \App\Models\Todo  $todo
+     * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function show(Todo $todo)
+    public function show($id)
     {
         //
     }
@@ -68,40 +68,34 @@ class TodoController extends Controller
     /**
      * Show the form for editing the specified resource.
      *
-     * @param  \App\Models\Todo  $todo
+     * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function edit(Request $request, $todo)
+    public function edit($id)
     {
-        $datafor=DB::select('select * from todos where id=?',[$todo]);
-        return view('edit',compact('datafor'));
+        //
     }
 
     /**
      * Update the specified resource in storage.
      *
      * @param  \Illuminate\Http\Request  $request
-     * @param  \App\Models\Todo  $todo
+     * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, $todo)
+    public function update(Request $request, $id)
     {
-        $v=$request->input('title');
-        DB::update('update todos set title=? where id=?',[$v,$todo]);
-        return redirect('/');
-
+        //
     }
 
     /**
      * Remove the specified resource from storage.
      *
-     * @param  \App\Models\Todo  $todo
+     * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function destroy(Request $request, $todo)
+    public function destroy($id)
     {
-        DB::delete('delete from todos where id=?',[$todo]);
-        return redirect('/');
-
+        //
     }
 }
