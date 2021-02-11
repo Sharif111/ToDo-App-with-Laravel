@@ -3,6 +3,8 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
+use App\Models\Customer;
+use DB;
 
 class CustomerController extends Controller
 {
@@ -13,7 +15,7 @@ class CustomerController extends Controller
      */
     public function index()
     {
-        $data=DB::select('select * from customer');
+        $data=DB::select('select * from customers');
         return view('welcome',compact('data'));
     }
 
@@ -39,13 +41,13 @@ class CustomerController extends Controller
             'name' => 'required|max:255|regex:/^[A-Za-z0-9\-\&! ,\'\"\/@\.:\(\)]+$/',
             'address' => 'required|max:255|regex:/^[A-Za-z0-9\-\&! ,\'\"\/@\.:\(\)]+$/',
             'mobile' => 'required|max:255|regex:/^[A-Za-z0-9\-\&! ,\'\"\/@\.:\(\)]+$/',
+
                ]);
 
              $td=new Customer();
              $td->name=$request->name;
              $td->address=$request->address;
              $td->email=$request->email;
-             $td->gender=$request->gender;
              $td->mobile=$request->mobile;
              $save=$td->save();
              if($save){
@@ -73,7 +75,9 @@ class CustomerController extends Controller
      */
     public function edit($id)
     {
-        //
+
+        $td = Customer::find($id);
+        return view('edit',compact('td'));
     }
 
     /**
@@ -85,7 +89,22 @@ class CustomerController extends Controller
      */
     public function update(Request $request, $id)
     {
-        //
+        $validateData=$request->validate([
+            'name' => 'required|max:255|regex:/^[A-Za-z0-9\-\&! ,\'\"\/@\.:\(\)]+$/',
+            'address' => 'required|max:255|regex:/^[A-Za-z0-9\-\&! ,\'\"\/@\.:\(\)]+$/',
+            'mobile' => 'required|max:255|regex:/^[A-Za-z0-9\-\&! ,\'\"\/@\.:\(\)]+$/',
+
+               ]);
+
+             $td=Customer::find($id);
+             $td->name=$request->name;
+             $td->address=$request->address;
+             $td->email=$request->email;
+             $td->mobile=$request->mobile;
+             $td->save();
+
+             return redirect('/')->with('successmsg','Updated');
+
     }
 
     /**
@@ -94,8 +113,15 @@ class CustomerController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function destroy($id)
+     public function destroy($id)
     {
-        //
+        $Customer=Customer::find($id);
+        if($Customer)
+            $Customer->delete();
+        return redirect('/')->with('successmsg','Delete');
     }
+
+
+
+
 }
