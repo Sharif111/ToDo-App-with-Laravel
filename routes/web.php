@@ -4,15 +4,13 @@ use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\TodoController;
 
 
-//Route::get('/', function () {
-    //return view('welcome');
-//});
 
-Route::post('store','TodoController@store')->name('todo.store'); 
-Route::get('/','TodoController@index');
-Route::delete('/del/{id}','TodoController@destroy')->name('todo.destroy');
-Route::get('/display/{id}','TodoController@edit')->name('todo.edit');
-Route::put('/update/{id}','TodoController@update')->name('todo.update');
+
+Route::post('store','CustomerController@store')->name('customer.store');
+Route::get('/','CustomerController@index');
+Route::delete('/del/{id}','CustomerController@destroy')->name('customer.destroy');
+Route::get('/display/{id}','CustomerController@edit')->name('customer.edit');
+Route::post('/update/{id}','CustomerController@update')->name('customer.update');
 
 
 

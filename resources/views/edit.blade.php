@@ -1,20 +1,49 @@
 @extends('layouts.master')
 
 @section('content')
-@foreach ($datafor as $items)
-
-<div style="width:50%" class="container my-3">
-    <div class="input-group mb-3">
-    <form action="{{route('todo.update',$items->id)}}" method="POST">
-      @csrf
-      <input type="hidden" name="_method" value="PUT">
-          <input value="{{$items->title}}" type="text" class="form-control" name="title" placeholder="Update the list" aria-label="Recipient's username" aria-describedby="button-addon2">
-          <div class="input-group-append">
-             <button class="btn btn-outline-secondary btn-success text-light mt-3" type="submit" id="button-addon2">Update</button>
-          </div>
-       </form>   
+<div class="container">
+   @if($errors->any())
+        @foreach($errors->all() as $error)
+            <div class="alert alert-danger" role="alert">
+              {{$error}}
+            </div>
+        @endforeach
+    @endif
+    <form class="form-horizontal" action="{{route('customer.update',$td->id)}}"" method="post">
+       {{csrf_field()}}
+        <div class="form-group">
+            <label class="control-label col-sm-2">Name:</label>
+            <div class="col-sm-10">
+                <input type="text" class="form-control" value="{{ $td->name}}" name="name" placeholder="Enter Customer Name"> </div>
+        </div>
+        <div class="form-group">
+            <label class="control-label col-sm-2">Address:</label>
+            <div class="col-sm-10">
+                <input type="text" class="form-control" value="{{ $td->address}}" name="address"  placeholder="Enter Customer Address"> </div>
+        </div>
+        <div class="form-group">
+            <label class="control-label col-sm-2">Email:</label>
+            <div class="col-sm-10">
+                <input type="text" class="form-control" value="{{ $td->email}}" name="email"  placeholder="Enter Email"> </div>
+        </div>
+        <div class="form-group">
+            <label class="control-label col-sm-2">Number</label>
+            <div class="col-sm-10">
+                <input type="text" class="form-control" value="{{ $td->mobile}}" name="mobile"  placeholder="Enter Phone Number"> </div>
+        </div>
+        <div class="form-group">
+            <div class="col-sm-offset-2 col-sm-10">
+                <div class="checkbox">
+                    <label>
+                        <input type="checkbox" name="remember"> Remember me</label>
+                </div>
+            </div>
+        </div>
+        <div class="form-group">
+            <div class="col-sm-offset-2 col-sm-10">
+                <button type="submit" class="btn btn-primary">Submit</button>
+            </div>
+        </div>
+    </form>
 </div>
-</div>
-
-@endforeach   
 @endsection
